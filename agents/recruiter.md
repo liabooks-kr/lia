@@ -26,6 +26,7 @@ Lia가 위임할 때 다음 정보를 전달합니다:
 - **PRD**: .lia/project/prd.md (프로젝트 규모 판단용)
 - **기존 팀**: config.json의 team.custom (이미 있는 에이전트)
 - **CLAUDE.md**: 프로젝트 컨벤션 (있으면 — 에이전트에 주입)
+- **언어**: 산출물 작성 언어 (ko/en)
 
 ---
 

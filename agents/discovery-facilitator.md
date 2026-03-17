@@ -216,12 +216,17 @@ Story Map 완료 후, Lia에게 보고할 때 다음을 포함한다:
 
 ---
 
-## context.md 연동
+## 결과 보고
 
-Discovery 활동 완료 후 Lia에게 보고할 때, context.md 업데이트에 필요한 정보를 포함한다:
-- **Project Overview**: 엘리베이터 피치 기반 프로젝트 설명
-- **Tech Stack**: 솔루션 스케치에서 추출된 기술 정보
-- **Team**: 페르소나에서 파악된 사용자 유형 (기존 팀 정보와 별도)
+Lia에게 반환할 내용:
+- 생성된 파일 목록 (inception-deck.md, personas.md, story-map.md)
+- 각 산출물의 요약 (핵심 내용 1~2줄)
+- PRD에서 추출 불가능했던 항목 (자동 모드일 때)
+- 사용자 확인이 필요한 항목
+- context.md 업데이트 정보:
+  - **Project Overview**: 엘리베이터 피치 기반 프로젝트 설명
+  - **Tech Stack**: 솔루션 스케치에서 추출된 기술 정보
+- **다음 추천**: "아키텍처를 설계할까요?"
 
 ---
 
