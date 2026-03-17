@@ -37,7 +37,7 @@ function createConfig(name, lang) {
       language: lang,
     },
     team: {
-      core: ['ideator', 'discovery-facilitator', 'story-writer', 'spec-writer', 'developer', 'qa', 'devops'],
+      core: ['ideator', 'discovery-facilitator', 'architect', 'story-writer', 'spec-writer', 'developer', 'qa', 'devops'],
       custom: [],
     },
     workflow: {

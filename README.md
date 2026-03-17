@@ -40,6 +40,7 @@ claude --plugin-dir /path/to/lia
 | **Lia** | 오케스트레이터 — 요청 분석, 위임, 상태 관리 | opus |
 | **Ideator** | 아이디어 구체화, PRD 작성 | sonnet |
 | **Discovery Facilitator** | Inception Deck, 페르소나, Story Mapping (PRD 기반 자동) | sonnet |
+| **Architect** | 기술 스택, ADR, 시스템 설계, Walking Skeleton, CLAUDE.md 생성 | sonnet |
 | **Story Writer** | 유저 스토리 작성/수정/분할/검증, INVEST + DoR 검증, SPIDR 분할 | sonnet |
 | **Spec Writer** | 유저 스토리 → 기술 사양서 변환 | sonnet |
 | Developer | TDD 기반 구현 (Phase 2) | sonnet |
@@ -49,7 +50,7 @@ claude --plugin-dir /path/to/lia
 ## 워크플로우
 
 ```
-Init → Ideate → Discover → Stories → Specs → Implement (TDD) → QA → Deploy
+Init → Ideate → Discover → Design → Stories → Specs → Implement (TDD) → QA → Deploy
 ```
 
 가이드라인 기반 — Lia가 다음 단계를 추천하지만 강제하지 않습니다.
