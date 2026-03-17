@@ -119,6 +119,57 @@ PRD 초안을 Lia에게 반환하며, 사용자 확인이 필요한 항목을 �
 3. PRD 품질 체크리스트를 재검증한다
 4. 파일을 업데이트한다
 
+### 태스크: 외부 PRD 임포트
+
+사용자가 다른 도구(ChatGPT, Notion, Google Docs 등)로 이미 PRD를 작성해서 가져오는 경우:
+
+#### 1. PRD 읽기
+- 파일 경로가 제공되면 Read 도구로 읽는다
+- 텍스트로 직접 전달되면 그대로 사용한다
+
+#### 2. Lia 포맷 매핑
+prd-guide 스킬의 8개 섹션과 대조하여 매핑한다:
+
+| Lia 섹션 | 외부 PRD에서 탐색 |
+|----------|-----------------|
+| 1. 문제 정의 | Background, Problem Statement, Overview |
+| 2. 타겟 사용자 | Target Users, Personas, Audience |
+| 3. 핵심 기능 | Features, Requirements, Scope |
+| 4. NOT 리스트 | Out of Scope, Non-goals, Exclusions |
+| 5. 사용자 플로우 | User Flow, User Journey, Use Cases |
+| 6. 성공 메트릭 | Success Metrics, KPIs, Goals |
+| 7. 기술 제약 | Technical Requirements, Constraints, Stack |
+| 8. 엣지 케이스 & 리스크 | Edge Cases, Risks, Assumptions |
+
+#### 3. 갭 분석
+빠진 섹션을 식별하고, 각 누락 항목에 대해 보충 질문을 반환한다:
+```
+[QUESTIONS]
+외부 PRD를 분석한 결과, 다음 정보가 부족합니다:
+
+1. NOT 리스트가 없어요. 이 프로젝트에서 명확하게 하지 않을 것은 무엇인가요?
+   (범위를 좁히면 AI 코딩 도구가 더 정확하게 작업합니다)
+
+2. 성공 메트릭이 없어요. 출시 후 성공을 어떻게 측정하나요?
+   (구체적 수치가 있으면 우선순위 결정에 도움됩니다)
+[/QUESTIONS]
+```
+
+빠진 것이 없으면 질문 없이 바로 변환한다.
+
+#### 4. 변환 & 저장
+- Lia PRD 템플릿 형식으로 변환한다
+- 원본 PRD의 내용은 최대한 보존하고, 구조만 정리한다
+- 엘리베이터 피치가 없으면 생성한다
+- `.lia/project/prd.md`에 저장한다
+
+#### 5. 품질 검증 보고
+변환 완료 후 결과를 보고한다:
+- 매핑 완료된 섹션 목록
+- 빠져서 보충이 필요한 항목 (있으면)
+- 원본 PRD에서 Lia 포맷에 맞지 않아 재구성한 부분
+- **다음 추천**: "Discovery 단계를 자동 생성할 수 있어요"
+
 ---
 
 ## 결과 보고
