@@ -37,7 +37,7 @@ function createConfig(name, lang) {
       language: lang,
     },
     team: {
-      core: ['product-owner', 'spec-writer', 'developer', 'qa', 'devops'],
+      core: ['discovery-facilitator', 'story-writer', 'spec-writer', 'developer', 'qa', 'devops'],
       custom: [],
     },
     workflow: {
@@ -74,7 +74,8 @@ ${name} 프로젝트.
 
 ## Team
 
-- product-owner: 유저 스토리 작성
+- discovery-facilitator: Inception Deck, 페르소나, Story Mapping
+- story-writer: 유저 스토리 작성/수정/분할/검증
 - spec-writer: 기술 사양서 작성
 - developer: TDD 기반 구현
 - qa: 수용 기준 검증
@@ -82,7 +83,7 @@ ${name} 프로젝트.
 
 ## Current State
 
-프로젝트 초기화 완료. 유저 스토리 작성 대기 중.
+프로젝트 초기화 완료. Discovery 단계 대기 중.
 
 ## Key Conventions
 
