@@ -22,13 +22,6 @@
     .header .live { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* Workflow Progress */
-    .workflow { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
-    .workflow .step { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); }
-    .workflow .step.active { background: var(--accent); color: #000; border-color: var(--accent); }
-    .workflow .step.done { background: #1a3a2a; color: var(--green); border-color: #2a5a3a; }
-    .workflow .arrow { color: var(--text-muted); display: flex; align-items: center; font-size: 12px; }
-
     /* Grid */
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; margin-bottom: 24px; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
@@ -94,12 +87,14 @@
       <span class="badge" id="project-lang">ko</span>
     </div>
 
-    <div class="workflow" id="workflow"></div>
-
     <div class="grid">
       <div class="card">
         <h2>Backlog</h2>
         <div class="stats" id="backlog-stats"></div>
+      </div>
+      <div class="card">
+        <h2>Story Status</h2>
+        <div class="stats" id="story-stats"></div>
       </div>
       <div class="card">
         <h2>Team</h2>
@@ -180,17 +175,25 @@
       return match ? parseInt(match[1]) : null;
     }
 
-    // Render workflow
-    const STEPS = ['Init', 'Ideate', 'Discover', 'Design', 'Recruit', 'Stories', 'Specs', 'Implement', 'QA', 'Deploy'];
-
-    function renderWorkflow(config) {
-      const el = document.getElementById('workflow');
-      const w = config?.workflow || {};
-      el.innerHTML = STEPS.map((step, i) => {
-        let cls = 'step';
-        if (i === 0) cls += ' done'; // Init always done if we have config
-        return `<span class="${cls}">${step}</span>` + (i < STEPS.length - 1 ? '<span class="arrow">→</span>' : '');
-      }).join('');
+    // Render story status counts
+    function renderStoryStats(stories) {
+      const el = document.getElementById('story-stats');
+      if (!stories || stories.length === 0) {
+        el.innerHTML = '<span class="empty">No stories</span>';
+        return;
+      }
+      const counts = { draft: 0, pending: 0, 'in-progress': 0, done: 0 };
+      stories.forEach(s => {
+        const status = extractStatus(s.content);
+        if (counts[status] !== undefined) counts[status]++;
+        else counts.pending++;
+      });
+      el.innerHTML = `
+        <div class="stat"><div class="value" style="color:var(--text-muted)">${counts.draft}</div><div class="label">Draft</div></div>
+        <div class="stat"><div class="value" style="color:var(--yellow)">${counts.pending}</div><div class="label">Pending</div></div>
+        <div class="stat"><div class="value" style="color:var(--accent)">${counts['in-progress']}</div><div class="label">In Progress</div></div>
+        <div class="stat"><div class="value" style="color:var(--green)">${counts.done}</div><div class="label">Done</div></div>
+      `;
     }
 
     // Render backlog stats
@@ -300,11 +303,11 @@
         document.getElementById('project-name').textContent = `${config.project?.name || 'Lia'} Dashboard`;
         document.getElementById('project-lang').textContent = config.project?.language || 'ko';
         document.title = `${config.project?.name || 'Lia'} — Dashboard`;
-        renderWorkflow(config);
         renderTeam(config);
       }
 
       renderBacklogStats(backlog);
+      renderStoryStats(stories);
       renderItems('stories-list', stories, 'story');
       renderItems('specs-list', specs, 'spec');
       renderProject(project);
