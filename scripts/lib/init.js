@@ -122,7 +122,7 @@ function main() {
   }
 
   // 디렉토리 생성
-  const dirs = ['stories', 'specs', 'sprints'];
+  const dirs = ['project', 'stories', 'specs', 'sprints'];
   fs.mkdirSync(liaDir, { recursive: true });
   dirs.forEach((d) => {
     fs.mkdirSync(path.join(liaDir, d), { recursive: true });

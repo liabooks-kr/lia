@@ -13,12 +13,13 @@ user-invocable: false
 권장 순서 (강제 아님, 가이드라인):
 
 ```
-Init → Stories → Specs → Implement (TDD) → QA → Deploy
+Init → Discover → Stories → Specs → Implement (TDD) → QA → Deploy
 ```
 
 | 단계 | 산출물 | 담당 |
 |------|--------|------|
 | Init | .lia/ 구조, config.json, context.md | Lia |
+| Discover | inception-deck.md, personas.md, story-map.md | Discovery Facilitator |
 | Stories | US-NNNN-slug.md, backlog.md | Story Writer |
 | Specs | SPEC-NNNN-slug.md | Spec Writer |
 | Implement | 소스 코드 + 테스트 코드 | Developer |
@@ -72,7 +73,7 @@ Init → Stories → Specs → Implement (TDD) → QA → Deploy
     "language": "ko"
   },
   "team": {
-    "core": ["story-writer", "spec-writer", "developer", "qa", "devops"],
+    "core": ["discovery-facilitator", "story-writer", "spec-writer", "developer", "qa", "devops"],
     "custom": []
   },
   "workflow": {

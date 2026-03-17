@@ -18,6 +18,7 @@ claude --plugin-dir /path/to/lia
 
 ```
 리아야, 프로젝트 초기화해줘
+리아야, 프로젝트 발견 시작해줘
 리아야, 로그인 기능 유저 스토리 작성해줘
 리아야, US-0001 사양서 만들어줘
 리아야, 현재 프로젝트 상태 알려줘
@@ -37,6 +38,7 @@ claude --plugin-dir /path/to/lia
 | 에이전트 | 역할 | 모델 |
 |----------|------|------|
 | **Lia** | 오케스트레이터 — 요청 분석, 위임, 상태 관리 | opus |
+| **Discovery Facilitator** | Inception Deck, 페르소나 정의, Story Mapping | sonnet |
 | **Story Writer** | 유저 스토리 작성/수정/분할/검증, INVEST + DoR 검증, SPIDR 분할 | sonnet |
 | **Spec Writer** | 유저 스토리 → 기술 사양서 변환 | sonnet |
 | Developer | TDD 기반 구현 (Phase 2) | sonnet |
@@ -46,7 +48,7 @@ claude --plugin-dir /path/to/lia
 ## 워크플로우
 
 ```
-Init → Stories → Specs → Implement (TDD) → QA → Deploy
+Init → Discover → Stories → Specs → Implement (TDD) → QA → Deploy
 ```
 
 가이드라인 기반 — Lia가 다음 단계를 추천하지만 강제하지 않습니다.
@@ -60,6 +62,7 @@ Lia가 관리하는 `.lia/` 디렉토리:
 ├── config.json    # 프로젝트 설정 (팀, 언어, 상태)
 ├── context.md     # 프로젝트 메모리 (아키텍처, 결정사항)
 ├── backlog.md     # 우선순위별 백로그
+├── project/       # Discovery 산출물 (inception-deck, personas, story-map)
 ├── stories/       # 유저 스토리 (US-NNNN-slug.md)
 ├── specs/         # 기술 사양서 (SPEC-NNNN-slug.md)
 └── sprints/       # 스프린트 계획
