@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lia Dashboard</title>
+  <style>
+    :root {
+      --bg: #0d1117; --surface: #161b22; --border: #30363d;
+      --text: #e6edf3; --text-muted: #8b949e; --accent: #58a6ff;
+      --green: #3fb950; --yellow: #d29922; --red: #f85149;
+      --cyan: #39d353; --magenta: #bc8cff; --blue: #58a6ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+    /* Header */
+    .header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .header h1 { font-size: 24px; font-weight: 600; }
+    .header .badge { font-size: 12px; padding: 2px 8px; border-radius: 12px; background: var(--green); color: #000; font-weight: 600; }
+    .header .live { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Workflow Progress */
+    .workflow { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+    .workflow .step { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); }
+    .workflow .step.active { background: var(--accent); color: #000; border-color: var(--accent); }
+    .workflow .step.done { background: #1a3a2a; color: var(--green); border-color: #2a5a3a; }
+    .workflow .arrow { color: var(--text-muted); display: flex; align-items: center; font-size: 12px; }
+
+    /* Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .card h2 { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .card h3 { font-size: 16px; margin-bottom: 8px; }
+
+    /* Stats */
+    .stats { display: flex; gap: 16px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat .value { font-size: 28px; font-weight: 700; }
+    .stat .label { font-size: 12px; color: var(--text-muted); }
+    .stat.p0 .value { color: var(--red); }
+    .stat.p1 .value { color: var(--yellow); }
+    .stat.p2 .value { color: var(--text-muted); }
+
+    /* Team */
+    .team-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .team-member { padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: 500; }
+    .team-member.core { background: #1a2a3a; color: var(--cyan); }
+    .team-member.custom { background: #2a1a3a; color: var(--magenta); }
+
+    /* Items List */
+    .items { list-style: none; }
+    .items li { padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .items li:hover { color: var(--accent); }
+    .items li:last-child { border-bottom: none; }
+    .items .id { font-family: monospace; font-size: 13px; color: var(--accent); min-width: 80px; }
+    .items .title { flex: 1; margin-left: 8px; }
+    .items .status { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+    .status-pending { background: #2a2a1a; color: var(--yellow); }
+    .status-draft { background: #1a1a2a; color: var(--text-muted); }
+    .status-done { background: #1a3a2a; color: var(--green); }
+    .status-in-progress { background: #1a2a3a; color: var(--accent); }
+
+    /* Detail View */
+    .detail-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; }
+    .detail-overlay.show { display: flex; justify-content: center; align-items: flex-start; padding: 40px; }
+    .detail-content { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
+    .detail-content .close { position: absolute; top: 12px; right: 16px; cursor: pointer; font-size: 20px; color: var(--text-muted); background: none; border: none; }
+    .detail-content .close:hover { color: var(--text); }
+    .detail-content h1 { font-size: 20px; margin-bottom: 16px; }
+    .detail-content h2 { font-size: 16px; margin: 16px 0 8px; color: var(--accent); }
+    .detail-content h3 { font-size: 14px; margin: 12px 0 4px; }
+    .detail-content p, .detail-content li { color: var(--text); margin-bottom: 4px; }
+    .detail-content code { background: #1a1a2a; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+    .detail-content pre { background: #1a1a2a; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+    .detail-content table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+    .detail-content th, .detail-content td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; font-size: 13px; }
+    .detail-content th { background: #1a1a2a; }
+
+    /* Empty */
+    .empty { color: var(--text-muted); font-style: italic; font-size: 14px; }
+
+    /* Full Width Card */
+    .full-width { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="live"></div>
+      <h1 id="project-name">Lia Dashboard</h1>
+      <span class="badge" id="project-lang">ko</span>
+    </div>
+
+    <div class="workflow" id="workflow"></div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Backlog</h2>
+        <div class="stats" id="backlog-stats"></div>
+      </div>
+      <div class="card">
+        <h2>Team</h2>
+        <div class="team-list" id="team-list"></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Stories</h2>
+        <ul class="items" id="stories-list"></ul>
+      </div>
+      <div class="card">
+        <h2>Specs</h2>
+        <ul class="items" id="specs-list"></ul>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card full-width">
+        <h2>Discovery</h2>
+        <ul class="items" id="project-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-overlay" id="detail-overlay">
+    <div class="detail-content">
+      <button class="close" onclick="closeDetail()">&times;</button>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // Simple Markdown → HTML
+    function md(text) {
+      if (!text) return '';
+      return text
+        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/```[\s\S]*?```/g, m => '<pre>' + m.slice(3, -3).trim() + '</pre>')
+        .replace(/^\| .+$/gm, line => {
+          const cells = line.split('|').filter(c => c.trim());
+          if (cells.every(c => /^[\s-:]+$/.test(c))) return '';
+          const tag = 'td';
+          return '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+        })
+        .replace(/(<tr>[\s\S]*?<\/tr>)/g, '<table>$1</table>')
+        .replace(/<\/table>\s*<table>/g, '')
+        .replace(/^- \[x\] (.+)$/gm, '<li>✅ $1</li>')
+        .replace(/^- \[ \] (.+)$/gm, '<li>⬜ $1</li>')
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+    }
+
+    // API fetch
+    async function api(url) {
+      try {
+        const res = await fetch(url);
+        return await res.json();
+      } catch { return null; }
+    }
+
+    // Extract status from markdown content
+    function extractStatus(content) {
+      const match = content.match(/Status\s*\|\s*(\w[\w-]*)/);
+      return match ? match[1] : 'pending';
+    }
+
+    // Extract points from markdown content
+    function extractPoints(content) {
+      const match = content.match(/Story Points\s*\|\s*(\d+)/);
+      return match ? parseInt(match[1]) : null;
+    }
+
+    // Render workflow
+    const STEPS = ['Init', 'Ideate', 'Discover', 'Design', 'Recruit', 'Stories', 'Specs', 'Implement', 'QA', 'Deploy'];
+
+    function renderWorkflow(config) {
+      const el = document.getElementById('workflow');
+      const w = config?.workflow || {};
+      el.innerHTML = STEPS.map((step, i) => {
+        let cls = 'step';
+        if (i === 0) cls += ' done'; // Init always done if we have config
+        return `<span class="${cls}">${step}</span>` + (i < STEPS.length - 1 ? '<span class="arrow">→</span>' : '');
+      }).join('');
+    }
+
+    // Render backlog stats
+    function renderBacklogStats(backlog) {
+      const el = document.getElementById('backlog-stats');
+      if (!backlog?.content) { el.innerHTML = '<span class="empty">No backlog</span>'; return; }
+      const content = backlog.content;
+      const p0 = (content.match(/## P0/i) ? content.split(/## P[12]/i)[0].split('## P0')[1] || '' : '').match(/- \[/g)?.length || 0;
+      const p1 = (content.match(/## P1/i) ? content.split(/## P2/i)[0].split('## P1')[1] || '' : '').match(/- \[/g)?.length || 0;
+      const p2 = (content.match(/## P2/i) ? content.split(/## Done/i)[0].split('## P2')[1] || '' : '').match(/- \[/g)?.length || 0;
+      const done = (content.split('## Done')[1] || '').match(/- \[x\]/g)?.length || 0;
+      el.innerHTML = `
+        <div class="stat p0"><div class="value">${p0}</div><div class="label">P0 Must</div></div>
+        <div class="stat p1"><div class="value">${p1}</div><div class="label">P1 Should</div></div>
+        <div class="stat p2"><div class="value">${p2}</div><div class="label">P2 Nice</div></div>
+        <div class="stat"><div class="value" style="color:var(--green)">${done}</div><div class="label">Done</div></div>
+      `;
+    }
+
+    // Render team
+    function renderTeam(config) {
+      const el = document.getElementById('team-list');
+      const core = config?.team?.core || [];
+      const custom = config?.team?.custom || [];
+      el.innerHTML =
+        core.map(a => `<span class="team-member core">${a}</span>`).join('') +
+        custom.map(a => `<span class="team-member custom">${a}</span>`).join('') +
+        (core.length === 0 && custom.length === 0 ? '<span class="empty">No team</span>' : '');
+    }
+
+    // Render items list (stories/specs)
+    function renderItems(elId, items, type) {
+      const el = document.getElementById(elId);
+      if (!items || items.length === 0) {
+        el.innerHTML = '<li class="empty">No items</li>';
+        return;
+      }
+      el.innerHTML = items.map(item => {
+        const status = extractStatus(item.content);
+        const points = extractPoints(item.content);
+        const pointsStr = points ? ` (${points}pt)` : '';
+        return `<li onclick="showDetail('${type}', '${item.filename}')">
+          <span class="id">${item.filename.replace('.md', '').split('-').slice(0, 2).join('-')}</span>
+          <span class="title">${item.title}${pointsStr}</span>
+          <span class="status status-${status}">${status}</span>
+        </li>`;
+      }).join('');
+    }
+
+    // Render project (discovery) items
+    function renderProject(items) {
+      const el = document.getElementById('project-list');
+      if (!items || items.length === 0) {
+        el.innerHTML = '<li class="empty">No discovery artifacts</li>';
+        return;
+      }
+      el.innerHTML = items.map(item => {
+        return `<li onclick="showDetail('project', '${item.filename}')">
+          <span class="id">${item.filename.replace('.md', '')}</span>
+          <span class="title">${item.title}</span>
+        </li>`;
+      }).join('');
+    }
+
+    // Detail view
+    async function showDetail(type, filename) {
+      const overlay = document.getElementById('detail-overlay');
+      const body = document.getElementById('detail-body');
+      let data;
+      if (type === 'story') {
+        data = await api(`/api/story/${filename}`);
+      } else if (type === 'spec') {
+        data = await api(`/api/spec/${filename}`);
+      } else if (type === 'project') {
+        const items = await api('/api/project');
+        data = items?.find(i => i.filename === filename);
+      }
+      if (data?.content) {
+        body.innerHTML = md(data.content);
+        overlay.classList.add('show');
+      }
+    }
+
+    function closeDetail() {
+      document.getElementById('detail-overlay').classList.remove('show');
+    }
+
+    document.getElementById('detail-overlay').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeDetail();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDetail();
+    });
+
+    // Load all data
+    async function loadDashboard() {
+      const [config, backlog, stories, specs, project] = await Promise.all([
+        api('/api/config'),
+        api('/api/backlog'),
+        api('/api/stories'),
+        api('/api/specs'),
+        api('/api/project'),
+      ]);
+
+      if (config) {
+        document.getElementById('project-name').textContent = `${config.project?.name || 'Lia'} Dashboard`;
+        document.getElementById('project-lang').textContent = config.project?.language || 'ko';
+        document.title = `${config.project?.name || 'Lia'} — Dashboard`;
+        renderWorkflow(config);
+        renderTeam(config);
+      }
+
+      renderBacklogStats(backlog);
+      renderItems('stories-list', stories, 'story');
+      renderItems('specs-list', specs, 'spec');
+      renderProject(project);
+    }
+
+    // SSE for real-time updates
+    function connectSSE() {
+      const es = new EventSource('/api/watch');
+      es.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        if (data.type === 'file-changed') {
+          loadDashboard();
+        }
+      };
+      es.onerror = () => {
+        setTimeout(connectSSE, 3000);
+      };
+    }
+
+    // Init
+    loadDashboard();
+    connectSSE();
+  </script>
+</body>
+</html>

@@ -66,6 +66,7 @@ skills:
 | **백로그** | 백로그, 우선순위, backlog | Lia 직접: backlog.md 관리 |
 | **팀 관리** | 팀원 추가, 에이전트 추가, 새 역할 | Lia 직접: 커스텀 에이전트 생성 |
 | **다음 단계** | 다음, 뭐 해야 해, next | Lia 직접: 워크플로우 가이드 |
+| **대시보드** | 대시보드, dashboard, 현황 보기 | Lia 직접: dashboard-server.js 시작 + 브라우저 오픈 |
 
 ### 여러 카테고리에 해당하는 경우
 
@@ -179,6 +180,21 @@ skills:
 ```
 "사양서 없이 바로 구현하시겠어요? 사양서를 먼저 작성하면 구현이 더 체계적이지만, 바로 진행해도 괜찮아요. 어떻게 할까요?"
 ```
+
+### 대시보드 열기
+
+사용자가 대시보드를 요청하면:
+
+1. 대시보드 서버를 백그라운드로 시작:
+   ```bash
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/dashboard-server.js --dir "{project_root}" &
+   ```
+2. 서버 출력에서 URL을 읽는다 (JSON: `{"url":"http://localhost:PORT"}`)
+3. 브라우저를 열기:
+   ```bash
+   open "{url}"
+   ```
+4. 사용자에게 URL을 안내한다
 
 ### 커스텀 에이전트 생성
 
