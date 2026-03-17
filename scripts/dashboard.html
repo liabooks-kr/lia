@@ -70,7 +70,9 @@
     .detail-content pre { background: #1a1a2a; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
     .detail-content table { width: 100%; border-collapse: collapse; margin: 8px 0; }
     .detail-content th, .detail-content td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; font-size: 13px; }
-    .detail-content th { background: #1a1a2a; }
+    .detail-content th { background: #1a1a2a; font-weight: 600; }
+    .detail-content blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--text-muted); margin: 8px 0; }
+    .detail-content pre code { background: none; padding: 0; }
 
     /* Empty */
     .empty { color: var(--text-muted); font-style: italic; font-size: 14px; }
@@ -136,30 +138,81 @@
   </div>
 
   <script>
-    // Simple Markdown → HTML
+    // Markdown → HTML (테이블, Gherkin, 코드 블록 지원)
     function md(text) {
       if (!text) return '';
-      return text
-        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/```[\s\S]*?```/g, m => '<pre>' + m.slice(3, -3).trim() + '</pre>')
-        .replace(/^\| .+$/gm, line => {
-          const cells = line.split('|').filter(c => c.trim());
-          if (cells.every(c => /^[\s-:]+$/.test(c))) return '';
-          const tag = 'td';
-          return '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
-        })
-        .replace(/(<tr>[\s\S]*?<\/tr>)/g, '<table>$1</table>')
-        .replace(/<\/table>\s*<table>/g, '')
-        .replace(/^- \[x\] (.+)$/gm, '<li>✅ $1</li>')
-        .replace(/^- \[ \] (.+)$/gm, '<li>⬜ $1</li>')
-        .replace(/^- (.+)$/gm, '<li>$1</li>')
-        .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-        .replace(/\n\n/g, '<br><br>')
-        .replace(/\n/g, '<br>');
+
+      // 1. 코드 블록을 보호 (내부 마크다운 치환 방지)
+      const codeBlocks = [];
+      text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+        codeBlocks.push(`<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;').trim()}</code></pre>`);
+        return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+      });
+
+      // 2. 테이블 처리 (행 단위로 그룹핑)
+      const lines = text.split('\n');
+      const result = [];
+      let inTable = false;
+      let tableRows = [];
+
+      function flushTable() {
+        if (tableRows.length === 0) return;
+        let html = '<table>';
+        tableRows.forEach((row, i) => {
+          const cells = row.split('|').filter(c => c.trim() !== '');
+          // 구분선 스킵
+          if (cells.every(c => /^[\s\-:]+$/.test(c))) return;
+          const tag = (i === 0) ? 'th' : 'td';
+          html += '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+        });
+        html += '</table>';
+        result.push(html);
+        tableRows = [];
+      }
+
+      for (const line of lines) {
+        if (line.match(/^\|.+\|$/)) {
+          inTable = true;
+          tableRows.push(line);
+        } else {
+          if (inTable) { flushTable(); inTable = false; }
+          result.push(line);
+        }
+      }
+      if (inTable) flushTable();
+
+      text = result.join('\n');
+
+      // 3. 헤딩
+      text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+      // 4. Gherkin 키워드 스타일링 (Given/When/Then/And/But)
+      text = text.replace(/\*\*(Given|When|Then|And|But):\*\*/g,
+        '<strong style="color:var(--cyan)">$1:</strong>');
+
+      // 5. 인라인 포맷
+      text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+      // 6. 리스트
+      text = text.replace(/^- \[x\] (.+)$/gm, '<li>✅ $1</li>');
+      text = text.replace(/^- \[ \] (.+)$/gm, '<li>⬜ $1</li>');
+      text = text.replace(/^- (.+)$/gm, '<li>$1</li>');
+      text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+
+      // 7. 인용
+      text = text.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+
+      // 8. 줄바꿈
+      text = text.replace(/\n\n/g, '<br><br>');
+      text = text.replace(/\n/g, '<br>');
+
+      // 9. 코드 블록 복원
+      text = text.replace(/__CODE_BLOCK_(\d+)__/g, (_, i) => codeBlocks[parseInt(i)]);
+
+      return text;
     }
 
     // API fetch
