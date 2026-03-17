@@ -68,7 +68,8 @@ story-format 스킬의 spec-template에 따라 작성한다:
 - 각 단계별 무엇을 구현하는지 명확히
 
 #### AC Mapping
-- 모든 AC를 1:1로 테스트 방법에 매핑
+- 모든 AC를 1:1로 테스트 방법에 매핑 (Test Approach + Pass Criteria + Test File)
+- **Test File 열은 비워둔다** — 구현 후 개발자가 채움
 - 누락 없이 검증 방법 명시
 
 #### Edge Cases

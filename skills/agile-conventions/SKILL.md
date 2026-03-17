@@ -57,6 +57,8 @@ Init → Ideate → Discover → Design → Recruit → Stories → Specs → Im
 ├── config.json          # 프로젝트 설정 및 상태 (단일 진실 소스)
 ├── context.md           # Lia의 프로젝트 메모리 (핵심 컨텍스트)
 ├── backlog.md           # 우선순위별 백로그
+├── matrix.md            # 추적성 매트릭스 (Story ↔ Spec ↔ Test 커버리지)
+├── project/             # Discovery 산출물
 ├── stories/             # 유저 스토리 파일
 ├── specs/               # 기술 사양서 파일
 └── sprints/             # 스프린트별 디렉토리
@@ -127,6 +129,23 @@ Init → Ideate → Discover → Design → Recruit → Stories → Specs → Im
 ## Done
 - [x] US-0002: {제목} ({N}pt) — Sprint 001
 ```
+
+## matrix.md 형식 (추적성 매트릭스)
+
+Story → Spec → Test 커버리지를 한눈에 파악하는 매트릭스. Lia가 스토리/사양서 생성 시 자동 갱신.
+
+```markdown
+# Traceability Matrix
+
+| Story | Spec | AC Count | Test Coverage | Status |
+|-------|------|----------|---------------|--------|
+| US-0001 | SPEC-0001 | 5 | 5/5 ✔ | done |
+| US-0002 | SPEC-0002 | 8 | 3/8 ⚠️ | in-progress |
+| US-0003 | — | 4 | — | pending |
+```
+
+**Status 값**: Story의 현재 상태 (draft/pending/in-progress/done)
+**Test Coverage**: Spec AC Mapping의 Test File 열이 채워진 비율
 
 ## 스프린트 계획 형식
 

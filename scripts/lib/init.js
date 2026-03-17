@@ -108,6 +108,17 @@ function createBacklog() {
 `;
 }
 
+// matrix.md 템플릿
+function createMatrix() {
+  return `# Traceability Matrix
+
+| Story | Spec | AC Count | Test Coverage | Status |
+|-------|------|----------|---------------|--------|
+
+(스토리가 생성되면 Lia가 자동으로 이 테이블을 갱신합니다)
+`;
+}
+
 // 메인 실행
 function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -146,6 +157,11 @@ function main() {
   fs.writeFileSync(
     path.join(liaDir, 'backlog.md'),
     createBacklog(),
+  );
+
+  fs.writeFileSync(
+    path.join(liaDir, 'matrix.md'),
+    createMatrix(),
   );
 
   // 성공 출력

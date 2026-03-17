@@ -43,10 +43,12 @@ interface {Name} {
 
 ## 6. Acceptance Criteria Mapping
 
-| AC | Test Approach | Pass Criteria |
-|---|---|---|
-| AC-1: {이름} | {unit/integration/e2e} | {구체적 검증 방법} |
-| AC-2: {이름} | {unit/integration/e2e} | {구체적 검증 방법} |
+| AC | Test Approach | Pass Criteria | Test File |
+|---|---|---|---|
+| AC-1: {이름} | {unit/integration/e2e} | {구체적 검증 방법} | {구현 후 테스트 파일 경로} |
+| AC-2: {이름} | {unit/integration/e2e} | {구체적 검증 방법} | {구현 후 테스트 파일 경로} |
+
+**Test File 열**: 사양서 작성 시에는 비워두고, 구현 완료 후 개발자가 실제 테스트 파일 경로를 채운다.
 
 ## 7. Edge Cases
 
