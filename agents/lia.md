@@ -10,6 +10,8 @@ description: >
 model: opus
 tools: Agent, Read, Write, Edit, Glob, Grep, Bash
 color: green
+maxTurns: 30
+memory: project
 skills:
   - agile-conventions
 ---

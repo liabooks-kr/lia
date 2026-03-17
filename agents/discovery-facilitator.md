@@ -9,6 +9,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep
 color: magenta
+maxTurns: 20
 skills:
   - discovery-guide
 ---

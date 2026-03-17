@@ -9,6 +9,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep
 color: cyan
+maxTurns: 20
 skills:
   - story-format
 ---

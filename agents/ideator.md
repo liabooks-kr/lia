@@ -8,6 +8,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep
 color: blue
+maxTurns: 20
 skills:
   - prd-guide
 ---

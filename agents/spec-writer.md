@@ -6,6 +6,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep, Bash
 color: yellow
+maxTurns: 20
 skills:
   - story-format
 ---

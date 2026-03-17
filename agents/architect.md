@@ -9,6 +9,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep, Bash
 color: red
+maxTurns: 20
 skills:
   - architecture-guide
 ---

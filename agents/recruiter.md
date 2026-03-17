@@ -8,6 +8,7 @@ description: >
 model: sonnet
 tools: Read, Write, Glob, Grep
 color: yellow
+maxTurns: 20
 skills:
   - team-building
 ---
