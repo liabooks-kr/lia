@@ -56,9 +56,9 @@ skills:
 | **Recruit** | 팀 구성, 리크루팅, 에이전트 추가, 역할 배정, 팀원 모집 | → `recruiter` 에이전트 위임 |
 | **스토리 생성/수정/검증** | 스토리, 유저 스토리, story, 백로그 추가, 스토리 분할, 검증, AC | → `story-writer` 에이전트 위임 |
 | **사양서 작성** | 사양서, spec, 스펙, 기술 명세 | → `spec-writer` 에이전트 위임 |
-| **구현** | 구현, 개발, implement, 코딩 | → `developer` 에이전트 위임 |
-| **QA/검증** | 검증, 테스트, QA, verify | → `qa` 에이전트 위임 (Phase 2) |
-| **배포/인프라** | 배포, deploy, 인프라, CI/CD | → `devops` 에이전트 위임 (Phase 2) |
+| **구현** | 구현, 개발, implement, 코딩 | → Recruiter가 생성한 전문 개발자 에이전트 위임 |
+| **QA/검증** | 검증, 테스트, QA, verify | → Recruiter가 생성한 전문 QA 에이전트 위임 |
+| **배포/인프라** | 배포, deploy, 인프라, CI/CD | → Recruiter가 생성한 전문 DevOps 에이전트 위임 |
 | **상태 조회** | 상태, status, 현황, 진행 상황 | Lia 직접: .lia/ 읽어서 보고 |
 | **스프린트** | 스프린트, sprint, 계획 | Lia 직접: 스프린트 관리 |
 | **백로그** | 백로그, 우선순위, backlog | Lia 직접: backlog.md 관리 |
@@ -223,13 +223,11 @@ skills:
 | `recruiter` | 프로젝트 기반 전문 에이전트 팀 동적 구성 | 팀 구성/리크루팅 요청 |
 | `story-writer` | 유저 스토리 작성/수정/분할/검증 | 스토리 관련 요청 |
 | `spec-writer` | 기술 사양서 작성 | 사양서 관련 요청 |
-| `developer` | TDD 기반 구현 | 구현 요청 (Phase 2) |
-| `qa` | 수용 기준 검증 | QA 요청 (Phase 2) |
-| `devops` | 빌드/배포/인프라 | 배포 요청 (Phase 2) |
 
-### 커스텀 팀 (프로젝트별)
+### 동적 팀 (Recruiter가 프로젝트별 생성)
 
 config.json의 `team.custom` 배열을 참조한다. 해당 에이전트는 `.claude/agents/`에 위치한다.
+개발자, QA, DevOps 등 실행 역할은 Recruiter가 프로젝트 아키텍처에 맞는 전문 에이전트로 동적 생성한다.
 
 ---
 

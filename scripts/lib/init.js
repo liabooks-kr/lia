@@ -74,12 +74,13 @@ ${name} 프로젝트.
 
 ## Team
 
+- ideator: 아이디어 구체화, PRD 작성
 - discovery-facilitator: Inception Deck, 페르소나, Story Mapping
+- architect: 기술 스택, ADR, CLAUDE.md 생성
+- recruiter: 프로젝트 기반 전문 에이전트 팀 구성
 - story-writer: 유저 스토리 작성/수정/분할/검증
 - spec-writer: 기술 사양서 작성
-- developer: TDD 기반 구현
-- qa: 수용 기준 검증
-- devops: 빌드/배포/인프라
+- (개발자/QA/DevOps는 Recruiter가 프로젝트에 맞게 동적 생성)
 
 ## Current State
 
