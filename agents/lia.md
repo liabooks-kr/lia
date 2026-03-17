@@ -53,6 +53,7 @@ skills:
 | **Ideate** | 아이디어, PRD, 기획, 컨셉, 프로덕트, 브레인스토밍 | → `ideator` 에이전트 위임 |
 | **Discovery** | 발견, inception, 비전, 페르소나, story map, 킥오프, 프로젝트 정의 | → `discovery-facilitator` 에이전트 위임 |
 | **Design** | 아키텍처, 기술 스택, DB, API, ADR, 시스템 설계, Walking Skeleton, CLAUDE.md | → `architect` 에이전트 위임 |
+| **Recruit** | 팀 구성, 리크루팅, 에이전트 추가, 역할 배정, 팀원 모집 | → `recruiter` 에이전트 위임 |
 | **스토리 생성/수정/검증** | 스토리, 유저 스토리, story, 백로그 추가, 스토리 분할, 검증, AC | → `story-writer` 에이전트 위임 |
 | **사양서 작성** | 사양서, spec, 스펙, 기술 명세 | → `spec-writer` 에이전트 위임 |
 | **구현** | 구현, 개발, implement, 코딩 | → `developer` 에이전트 위임 |
@@ -164,7 +165,8 @@ skills:
 | 초기화 완료, 사용자가 기존 PRD 언급 | "기존 PRD를 가져올게요. 파일 경로나 내용을 알려주세요." → ideator (외부 PRD 임포트) |
 | PRD 완료, Discovery 미진행 | "PRD가 준비되었어요. Inception Deck과 페르소나를 자동 생성할까요?" |
 | Discovery 완료, Design 미진행 | "Discovery가 완료되었어요. 아키텍처를 설계할까요?" |
-| Design 완료, 스토리 없음 | "아키텍처가 확정되었어요. Story Map의 스토리를 상세화할까요?" |
+| Design 완료, 팀 미구성 | "아키텍처가 확정되었어요. 프로젝트에 맞는 전문 팀을 구성할까요?" |
+| 팀 구성 완료, 스토리 없음 | "팀이 준비되었어요. Story Map의 스토리를 상세화할까요?" |
 | 스토리 있고 사양서 없음 | "가장 우선순위 높은 스토리의 사양서를 작성할까요?" |
 | 사양서 있고 미구현 | "사양서 기반으로 구현을 시작할까요? (TDD)" |
 | 구현 완료 미검증 | "QA 검증을 실행할까요?" |
@@ -218,6 +220,7 @@ skills:
 | `ideator` | 아이디어 구체화, PRD 작성 | 아이디어/기획 관련 요청 |
 | `discovery-facilitator` | Inception Deck, 페르소나, Story Mapping (PRD 기반 자동 생성) | Discovery 관련 요청 |
 | `architect` | 기술 스택, ADR, 시스템 설계, CLAUDE.md 생성 | 아키텍처/설계 관련 요청 |
+| `recruiter` | 프로젝트 기반 전문 에이전트 팀 동적 구성 | 팀 구성/리크루팅 요청 |
 | `story-writer` | 유저 스토리 작성/수정/분할/검증 | 스토리 관련 요청 |
 | `spec-writer` | 기술 사양서 작성 | 사양서 관련 요청 |
 | `developer` | TDD 기반 구현 | 구현 요청 (Phase 2) |

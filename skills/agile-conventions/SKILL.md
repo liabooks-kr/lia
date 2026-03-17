@@ -13,7 +13,7 @@ user-invocable: false
 권장 순서 (강제 아님, 가이드라인):
 
 ```
-Init → Ideate → Discover → Design → Stories → Specs → Implement (TDD) → QA → Deploy
+Init → Ideate → Discover → Design → Recruit → Stories → Specs → Implement (TDD) → QA → Deploy
 ```
 
 | 단계 | 산출물 | 담당 |
@@ -22,6 +22,7 @@ Init → Ideate → Discover → Design → Stories → Specs → Implement (TDD
 | Ideate | prd.md | Ideator |
 | Discover | inception-deck.md, personas.md, story-map.md | Discovery Facilitator (PRD 기반 자동) |
 | Design | architecture.md, ADRs, CLAUDE.md | Architect |
+| Recruit | .claude/agents/ 전문 에이전트 동적 생성 | Recruiter |
 | Stories | US-NNNN-slug.md, backlog.md | Story Writer |
 | Specs | SPEC-NNNN-slug.md | Spec Writer |
 | Implement | 소스 코드 + 테스트 코드 | Developer |
@@ -75,7 +76,7 @@ Init → Ideate → Discover → Design → Stories → Specs → Implement (TDD
     "language": "ko"
   },
   "team": {
-    "core": ["ideator", "discovery-facilitator", "architect", "story-writer", "spec-writer", "developer", "qa", "devops"],
+    "core": ["ideator", "discovery-facilitator", "architect", "recruiter", "story-writer", "spec-writer"],
     "custom": []
   },
   "workflow": {
