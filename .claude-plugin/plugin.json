@@ -1,0 +1,6 @@
+{
+  "name": "lia",
+  "version": "0.1.0",
+  "description": "Lia — AI 에이전트 기반 애자일 팀. 유저 스토리, 사양서, 구현, QA, 배포를 에이전트 팀이 수행",
+  "author": { "name": "min" }
+}
