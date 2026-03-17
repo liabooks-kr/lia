@@ -50,6 +50,7 @@ skills:
 | 카테고리 | 시그널 키워드 | 처리 방법 |
 |----------|--------------|----------|
 | **초기화** | 초기화, 시작, init, 새 프로젝트 | Lia 직접: init.js 실행 |
+| **Ideate** | 아이디어, PRD, 기획, 컨셉, 프로덕트, 브레인스토밍 | → `ideator` 에이전트 위임 |
 | **Discovery** | 발견, inception, 비전, 페르소나, story map, 킥오프, 프로젝트 정의 | → `discovery-facilitator` 에이전트 위임 |
 | **스토리 생성/수정/검증** | 스토리, 유저 스토리, story, 백로그 추가, 스토리 분할, 검증, AC | → `story-writer` 에이전트 위임 |
 | **사양서 작성** | 사양서, spec, 스펙, 기술 명세 | → `spec-writer` 에이전트 위임 |
@@ -158,7 +159,8 @@ skills:
 
 | 현재 상태 | 추천 |
 |----------|------|
-| 초기화 완료, Discovery 미진행 | "프로젝트 비전을 먼저 정의할까요? Inception Deck부터 시작해보아요." |
+| 초기화 완료, PRD 없음 | "아이디어를 구체화해볼까요? PRD를 함께 만들어봐요." |
+| PRD 완료, Discovery 미진행 | "PRD가 준비되었어요. Inception Deck과 페르소나를 자동 생성할까요?" |
 | Discovery 완료, 스토리 없음 | "Story Map이 준비되었어요. 유저 스토리를 상세화할까요?" |
 | 스토리 있고 사양서 없음 | "가장 우선순위 높은 스토리의 사양서를 작성할까요?" |
 | 사양서 있고 미구현 | "사양서 기반으로 구현을 시작할까요? (TDD)" |
@@ -210,7 +212,8 @@ skills:
 
 | 이름 | 역할 | 위임 시점 |
 |------|------|----------|
-| `discovery-facilitator` | Inception Deck, 페르소나, Story Mapping | Discovery 관련 요청 |
+| `ideator` | 아이디어 구체화, PRD 작성 | 아이디어/기획 관련 요청 |
+| `discovery-facilitator` | Inception Deck, 페르소나, Story Mapping (PRD 기반 자동 생성) | Discovery 관련 요청 |
 | `story-writer` | 유저 스토리 작성/수정/분할/검증 | 스토리 관련 요청 |
 | `spec-writer` | 기술 사양서 작성 | 사양서 관련 요청 |
 | `developer` | TDD 기반 구현 | 구현 요청 (Phase 2) |

@@ -37,7 +37,7 @@ function createConfig(name, lang) {
       language: lang,
     },
     team: {
-      core: ['discovery-facilitator', 'story-writer', 'spec-writer', 'developer', 'qa', 'devops'],
+      core: ['ideator', 'discovery-facilitator', 'story-writer', 'spec-writer', 'developer', 'qa', 'devops'],
       custom: [],
     },
     workflow: {
@@ -83,7 +83,7 @@ ${name} 프로젝트.
 
 ## Current State
 
-프로젝트 초기화 완료. Discovery 단계 대기 중.
+프로젝트 초기화 완료. 아이디어 구체화(Ideate) 대기 중.
 
 ## Key Conventions
 
