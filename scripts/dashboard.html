@@ -115,6 +115,13 @@
 
     <div class="grid">
       <div class="card full-width">
+        <h2>Traceability Matrix</h2>
+        <div id="matrix-view"></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card full-width">
         <h2>Discovery</h2>
         <ul class="items" id="project-list"></ul>
       </div>
@@ -258,6 +265,36 @@
       }).join('');
     }
 
+    // Render traceability matrix
+    function renderMatrix(matrix) {
+      const el = document.getElementById('matrix-view');
+      if (!matrix?.content) {
+        el.innerHTML = '<span class="empty">No traceability data</span>';
+        return;
+      }
+      // Parse markdown table
+      const lines = matrix.content.split('\n').filter(l => l.startsWith('|') && !l.match(/^\|\s*[-:]+/));
+      if (lines.length <= 1) {
+        el.innerHTML = '<span class="empty">No stories tracked yet</span>';
+        return;
+      }
+      const headers = lines[0].split('|').filter(c => c.trim()).map(c => c.trim());
+      const rows = lines.slice(1).map(line => line.split('|').filter(c => c.trim()).map(c => c.trim()));
+
+      let html = '<table style="width:100%"><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+      rows.forEach(row => {
+        html += '<tr>' + row.map((cell, i) => {
+          let style = '';
+          if (cell.includes('✔')) style = 'color:var(--green)';
+          else if (cell.includes('⚠')) style = 'color:var(--yellow)';
+          else if (cell.includes('✘') || cell === '—') style = 'color:var(--text-muted)';
+          return `<td style="${style}">${cell}</td>`;
+        }).join('') + '</tr>';
+      });
+      html += '</table>';
+      el.innerHTML = html;
+    }
+
     // Detail view
     async function showDetail(type, filename) {
       const overlay = document.getElementById('detail-overlay');
@@ -291,12 +328,13 @@
 
     // Load all data
     async function loadDashboard() {
-      const [config, backlog, stories, specs, project] = await Promise.all([
+      const [config, backlog, stories, specs, project, matrix] = await Promise.all([
         api('/api/config'),
         api('/api/backlog'),
         api('/api/stories'),
         api('/api/specs'),
         api('/api/project'),
+        api('/api/matrix'),
       ]);
 
       if (config) {
@@ -310,6 +348,7 @@
       renderStoryStats(stories);
       renderItems('stories-list', stories, 'story');
       renderItems('specs-list', specs, 'spec');
+      renderMatrix(matrix);
       renderProject(project);
     }
 

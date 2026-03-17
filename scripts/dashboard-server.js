@@ -81,6 +81,7 @@ const apiHandlers = {
   '/api/stories': () => listMarkdownFiles(path.join(LIA_DIR, 'stories')),
   '/api/specs': () => listMarkdownFiles(path.join(LIA_DIR, 'specs')),
   '/api/project': () => listMarkdownFiles(path.join(LIA_DIR, 'project')),
+  '/api/matrix': () => ({ content: readMarkdown(path.join(LIA_DIR, 'matrix.md')) }),
 };
 
 // HTTP 서버
