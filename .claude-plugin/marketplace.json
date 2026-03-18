@@ -1,0 +1,22 @@
+{
+  "name": "liabooks-kr",
+  "owner": {
+    "name": "Min Hwang"
+  },
+  "metadata": {
+    "description": "Lia — AI 에이전트 기반 애자일 팀 플러그인"
+  },
+  "plugins": [
+    {
+      "name": "lia",
+      "source": "./",
+      "description": "AI 에이전트 기반 애자일 팀. Ideate → Discover → Design → Recruit → Stories → Specs → Implement → QA → Deploy 워크플로우를 에이전트 팀이 관리",
+      "version": "0.1.0",
+      "author": {
+        "name": "Min Hwang"
+      },
+      "keywords": ["agile", "project-management", "ai-agents", "orchestrator", "sdd", "tdd"],
+      "category": "workflow"
+    }
+  ]
+}
