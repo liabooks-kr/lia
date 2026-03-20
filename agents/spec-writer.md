@@ -66,9 +66,11 @@ story-format 스킬의 spec-template에 따라 작성한다:
 #### Implementation Order
 - 의존성 기준으로 구현 순서 정렬
 - 각 단계별 무엇을 구현하는지 명확히
+- **⚠️ "New Files/Modified Files"는 구현 가이드이지만, AC가 진짜 완료 조건이다.** 파일 목록에 없더라도 AC를 충족하기 위해 필요한 파일은 반드시 포함해야 한다.
 
 #### AC Mapping
-- 모든 AC를 1:1로 테스트 방법에 매핑 (Test Approach + Pass Criteria + Test File)
+- **모든 AC를 빠짐없이** 1:1로 테스트 방법에 매핑 (Test Approach + Pass Criteria + Test File)
+- AC Mapping에 누락된 AC가 있으면 구현 시 해당 기능을 빠뜨리게 된다
 - **Test File 열은 비워둔다** — 구현 후 개발자가 채움
 - 누락 없이 검증 방법 명시
 
