@@ -13,6 +13,7 @@ user-invocable: false
 ## 에이전트 템플릿 라이브러리
 
 - 개발자 템플릿: [developer-templates.md](references/developer-templates.md)
+- 디자이너 템플릿: [designer-templates.md](references/designer-templates.md)
 - QA 템플릿: [qa-templates.md](references/qa-templates.md)
 - DevOps 템플릿: [devops-templates.md](references/devops-templates.md)
 
@@ -55,6 +56,14 @@ user-invocable: false
 | PostgreSQL + Prisma/Drizzle | `db-specialist` | 스키마 설계, 마이그레이션, 쿼리 최적화 |
 | MongoDB | `mongodb-specialist` | 도큐먼트 설계, 인덱싱 |
 | Supabase | `supabase-developer` | Auth, Storage, Edge Functions |
+
+### 디자이너 / UX
+
+| 기술 | 에이전트 이름 | 핵심 역할 |
+|------|-------------|----------|
+| Tailwind CSS | `tailwind-designer` | 컴포넌트 스타일링, 레이아웃, 반응형 |
+| CSS-in-JS / Styled | `ui-designer` | 스타일 시스템, 테마, 디자인 토큰 |
+| Figma 연동 | `figma-integrator` | Figma → 코드 변환, 디자인 시스템 |
 
 ---
 
